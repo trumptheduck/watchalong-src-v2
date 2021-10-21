@@ -1,0 +1,102 @@
+<section class="player">
+  <app-youtube class="none" [ngClass]="{'visible':playerIndex === 0}" #youtubePlayer [width]="viewportWidth" [height]="viewportWidth*9/16"></app-youtube>
+  <app-native class="none" [ngClass]="{'visible':playerIndex === 1}" #nativePlayer [width]="viewportWidth" [height]="viewportWidth*9/16"></app-native>
+  <app-videojs class="none" [ngClass]="{'visible':playerIndex === 2}" #videojsPlayer [width]="viewportWidth" [height]="viewportWidth*9/16"></app-videojs>
+</section>
+<button mat-stroked-button (click)="playlistManager.next()">Video tiếp</button>
+<mat-slide-toggle [(ngModel)]="isFollowingHost">Xem cùng host</mat-slide-toggle>
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Danh sách phát
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Tìm kiếm trên Youtube
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-form-field appearance="fill">
+      <mat-label>Tìm kiếm</mat-label>
+      <input type="text"
+            aria-label="Number"
+            matInput
+            [matAutocomplete]="auto"
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="YT.getSuggestions(searchQuery)"
+            matAutocompletePosition="below"
+            >
+        <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of YT.suggestions" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <button color="accent" mat-raised-button (click)="YT.getResults(searchQuery)">Tìm kiếm</button>
+    <h2>Kết quả</h2>
+    <section class="result">
+      <mat-card *ngFor="let video of YT.results,index as i" class="example-card">
+        <mat-card-title-group>
+          <mat-card-title>{{video.title}}</mat-card-title>
+          <mat-card-subtitle>{{video.snippet.views}} views<button color="primary" mat-button (click)="addYTVideo(video.url)">Thêm vào playlist</button></mat-card-subtitle>
+          <img mat-card-sm-image [src]="video.snippet.thumbnails.url" >
+        </mat-card-title-group>
+      </mat-card>
+    </section>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Thêm video bằng link
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-form-field appearance="fill">
+      <mat-label>Link video</mat-label>
+    <input matInput [(ngModel)]="videoURL">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+    <mat-label>Nhà cung cấp</mat-label>
+    <mat-select [(ngModel)]="provider">
+      <mat-option [value]="'Youtube'" selected>Youtube</mat-option>
+      <mat-option [value]="'NguonHD'">Nguồn HD</mat-option>
+    </mat-select>
+  </mat-form-field>
+    <button color="accent" mat-raised-button (click)="addVideo(provider,videoURL)">Thêm</button>
+  </mat-expansion-panel>
+  <h2>Danh sách phát</h2>
+  <p *ngIf="Room.roomData.playlist.length === 0">Danh sách phát trống</p>
+  <section class="playlist">
+    <mat-card *ngFor="let video of Room.roomData.playlist,index as i">
+      <mat-card-title-group>
+        <mat-card-title>{{video.video.title}}</mat-card-title>
+        <mat-card-subtitle>{{video.video.author_name}}</mat-card-subtitle>
+        <img mat-card-sm-image [src]="video.video.thumbnail_url" >
+      </mat-card-title-group>
+    </mat-card>
+  </section>
+</mat-expansion-panel>
+<mat-card>
+  <mat-card-title>{{Room.roomData.host.name}}</mat-card-title>
+  <mat-card-subtitle>Host</mat-card-subtitle>
+  <mat-card-content>
+    <p>Thời gian: {{Math.floor(Room.roomData.host.time/60)}}:{{Room.roomData.host.time%60}}, Trạng thái: {{getStatus(Room.roomData.host.status)}}</p>
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-title>Mời bạn tham gia</mat-card-title>
+  <mat-card-subtitle>{{inviteURL}}</mat-card-subtitle>
+  <mat-card-content>
+    <button mat-button (click)="copyInvite()">COPY</button>
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-title>Thành viên</mat-card-title>
+  <mat-card-content>
+    <mat-card *ngFor="let member of Room.roomData.members">
+      <mat-card-title [ngClass]="{'colored--red':member.isHost}">{{member.name}}</mat-card-title>
+      <mat-card-subtitle>Thời gian: {{Math.floor(member.time/60)}}:{{member.time%60}}|Trạng thái: {{getStatus(member.status)}}</mat-card-subtitle>
+    </mat-card>
+  </mat-card-content>
+</mat-card>
+<button mat-raised-button color="danger" (click)="leaveRoom()">Rời khỏi phòng</button>

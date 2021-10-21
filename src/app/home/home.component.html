@@ -1,0 +1,19 @@
+<section class="background"></section>
+<section class="main">
+  <h1>Xem Youtube cùng với bạn bè và người thân yêu của bạn</h1>
+  <h2>Tên bạn là gì?</h2>
+  <mat-form-field>
+    <mat-label>Username</mat-label>
+    <input matInput type="text" [(ngModel)]="username">
+  </mat-form-field>
+  <button color="primary" mat-raised-button (click)="createNewRoom()">Tạo phòng mới</button>
+  <p>hoặc</p>
+  <h2>Tham gia cùng bạn bè</h2>
+  <mat-form-field>
+    <mat-label>Mã phòng</mat-label>
+    <input matInput [(ngModel)]="roomcode" type="text">
+  </mat-form-field>
+  <button color="primary" mat-raised-button (click)="joinExistingRoom()">Tham gia</button>
+  <p *ngIf="isInvalid">Phòng này không tồn tại!!</p>
+  <div class="spacer"></div>
+</section>

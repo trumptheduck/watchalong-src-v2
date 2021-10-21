@@ -1,0 +1,12 @@
+<section class="background"></section>
+<section class="main">
+  <h2>Tên bạn là gì?</h2>
+  <mat-form-field>
+    <mat-label>Username</mat-label>
+    <input matInput type="text" [(ngModel)]="username">
+  </mat-form-field>
+  <h2>Tham gia Phòng:</h2>
+  <h1>{{roomcode}}</h1>
+  <button color="primary"mat-raised-button (click)="join()">Tham gia</button>
+  <div class="spacer"></div>
+</section>
