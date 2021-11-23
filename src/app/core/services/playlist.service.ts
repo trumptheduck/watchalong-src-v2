@@ -21,7 +21,7 @@ export class PlaylistService {
     this._onVideoPlay = callback;
   }
   add(video:any,type:any) {
-    this.socket.emit('room:playlist:add',video,type);
+    this.socket.emit('room:playlist:add',{video:video,type:type});
   }
   remove(index:number) {
     if (this.playlist[index] !== null) {
@@ -30,7 +30,7 @@ export class PlaylistService {
   }
   swap(index1:number,index2:number) {
     if (this.playlist[index1] !== null && this.playlist[index2] !== null) {
-          this.socket.emit('room:playlist:swap',index1,index2);
+          this.socket.emit('room:playlist:swap',{index1:index1,index2:index2});
     }
   }
   next() {

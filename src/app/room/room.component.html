@@ -37,10 +37,10 @@
     <h2>Kết quả</h2>
     <section class="result">
       <mat-card *ngFor="let video of YT.results,index as i" class="example-card">
-        <mat-card-title-group>
+        <mat-card-title-group *ngIf="video.type == 'video'">
           <mat-card-title>{{video.title}}</mat-card-title>
-          <mat-card-subtitle>{{video.snippet.views}} views<button color="primary" mat-button (click)="addYTVideo(video.url)">Thêm vào playlist</button></mat-card-subtitle>
-          <img mat-card-sm-image [src]="video.snippet.thumbnails.url" >
+          <mat-card-subtitle>{{video.channelTitle}}<button color="primary" mat-button (click)="addYTVideoByID(video.id)">Thêm vào playlist</button></mat-card-subtitle>
+          <img mat-card-sm-image [src]="video.thumbnail.url" >
         </mat-card-title-group>
       </mat-card>
     </section>

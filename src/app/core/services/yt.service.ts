@@ -30,7 +30,8 @@ export class YTService {
     if (query !== '') {
       this.API.get(`apis/search?query=${query}`)
       .subscribe({'next':(data)=>{
-        this.results = data.data;
+        this.results = data.data.items;
+        console.log(this.results);
       }});
     }
   }

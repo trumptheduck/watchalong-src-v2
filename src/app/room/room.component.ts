@@ -19,6 +19,7 @@ import { YoutubeComponent } from './youtube/youtube.component';
   styleUrls: ['./room.component.scss']
 })
 export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
+  //Hook
   @ViewChild('youtubePlayer')
   youtubePlayer: YoutubeComponent;
   @ViewChild('nativePlayer')
@@ -102,6 +103,17 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   addYTVideo(url:string) {
     this.YT.getVideoData(this.YT.getVideoIdFromUrl(url))
+    .subscribe({'next':(data)=>{
+      if (data?.title !== undefined) {
+        this.openSnack('Thêm video thành cồng!');
+        this.playlistManager.add(data,'youtube');
+      } else {
+        this.openSnack('Link không hợp lệ');
+      }
+    }})
+  }
+  addYTVideoByID(id:string) {
+    this.YT.getVideoData(id)
     .subscribe({'next':(data)=>{
       if (data?.title !== undefined) {
         this.openSnack('Thêm video thành cồng!');

@@ -99,7 +99,7 @@ export class RoomService {
   }
 
   create(username:string) {
-    this.socket.emit('room:create',username,this.userID)
+    this.socket.emit('room:create',{name:username,id:this.userID})
   }
   join(username:string,roomID:string) {
     this.socket.emit('room:join',{
@@ -116,7 +116,7 @@ export class RoomService {
   }
 
   private reconnect() {
-    this.socket.emit('room:reconnect',this.userID,this.roomID);
+    this.socket.emit('room:reconnect',{id:this.userID,roomID:this.roomID});
     this.requestJoinStatus()
   }
   private update(data:any) {
@@ -125,6 +125,6 @@ export class RoomService {
   }
  
   updateUserData(time: any, status: any) {
-    this.socket.emit("room:data:update",time,status);
+    this.socket.emit("room:data:update",{time:time,status:status});
   }
 }
