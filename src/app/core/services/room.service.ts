@@ -82,6 +82,16 @@ export class RoomService {
     this._onDisconnect = callback;
   }
 
+  public get username():string {
+    for (let i = 0; i< this.roomData.members.length; i++) {
+      var member = this.roomData.members[i];
+      if (member.id === this.getUserID) {
+        return member.name;
+      }
+    }
+    return '';
+  }
+
   getUserID() {
     if (window.localStorage.getItem("userID") === null) {
       window.localStorage.setItem("userID",this.utils.makeId(64));

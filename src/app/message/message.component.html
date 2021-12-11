@@ -1,0 +1,21 @@
+<section class="chat">
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Chat
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="chat__container" #chatContainer>
+            <div *ngFor="let message of messageService.messageArray" class="chat__container__item" [ngClass]="{'chat__container__item--right':message.isSelf}">
+                <p class="chat__container__item__name">{{message.name}}</p>
+                <div class="chat__container__item__content" [ngClass]="{'chat__container__item__content--self':message.isSelf}">
+                   {{message.content}}
+                </div>
+            </div>
+        </div>
+        <div class="chat__wrapper">
+            <textarea class="chat__input" [(ngModel)]="userMessage" ></textarea>
+            <button class="chat__send" matRipple (click)="sendMessage()">Gửi</button>
+        </div>
+    </mat-expansion-panel>
+</section>

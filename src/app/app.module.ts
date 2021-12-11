@@ -29,7 +29,8 @@ import { NativeComponent } from './room/native/native.component';
 import { VideojsComponent } from './room/videojs/videojs.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { ChatComponent } from './room/chat/chat.component';
-
+import {MatRippleModule} from '@angular/material/core';
+import { MessageComponent } from './message/message.component';
 const config: SocketIoConfig = { url: environment.backend_url, options: {} };
 
 @NgModule({
@@ -44,7 +45,8 @@ const config: SocketIoConfig = { url: environment.backend_url, options: {} };
     YoutubeComponent,
     NativeComponent,
     VideojsComponent,
-    ChatComponent
+    ChatComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +65,8 @@ const config: SocketIoConfig = { url: environment.backend_url, options: {} };
     MatButtonToggleModule,
     MatSlideToggleModule,
     MatSelectModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatRippleModule
   ],
   providers: [],
   bootstrap: [AppComponent]
